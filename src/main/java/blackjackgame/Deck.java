@@ -30,4 +30,9 @@ public class Deck {
 	public Card drawCard() {
 		return deck.remove(0);
 	}
+	
+	// Get number of cards in deck
+	public int numCards() {
+		return deck.size();
+	}
 }

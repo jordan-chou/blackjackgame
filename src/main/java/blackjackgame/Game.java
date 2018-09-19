@@ -28,18 +28,7 @@ public class Game {
 		
 		// If input is console
 		if (input == 'c') {
-			deck = new Deck();
-			System.out.println();
-			System.out.println("Dealing Cards...");
-			for (int i = 0; i < 2; i++) {
-				player.newCard(deck.drawCard());
-				dealer.newCard(deck.drawCard());
-			}
-			System.out.println();
-			System.out.println("Dealer's Hand: --");
-			dealer.showHand(1);
-			System.out.println("--");
-			showPlayerHand();
+			initGame();
 			
 			// Player's turn
 			System.out.println();
@@ -51,13 +40,8 @@ public class Game {
 				
 				// Player chose to Hit
 				if (input == 'H' || input == 'h') {
-					player.newCard(deck.drawCard());
+					dealCard(player, 1);
 					showPlayerHand();
-					
-					// Player Busts
-					if (player.handValue() > 21) {
-						break;
-					}
 				}
 				
 				// Player chose to Stand
@@ -73,53 +57,14 @@ public class Game {
 				// Dealer's score <= 16, or soft 17, or <= than Player's
 				while ((dealer.handValue() <= 16 || (dealer.handValue() == 17 && dealer.hasAce())) && dealer.handValue() < player.handValue()) {
 					System.out.println("Dealer Hits");
-					dealer.newCard(deck.drawCard());
+					dealCard(dealer, 1);
 					showDealerHand();
 				}
 			}
 			System.out.println("Dealer Stands");
 			
 			// Determining the Winner
-			System.out.println();
-			System.out.println();
-			
-			System.out.println("Final Hands");
-			System.out.println("===========");
-			showDealerHand();
-			showPlayerHand();
-			System.out.println();
-			
-			// Player has Blackjack
-			if (player.handSize() == 2 && player.handValue() == 21) {
-				System.out.println("You got a Blackjack!");
-			}
-			// Dealer has Blackjack
-			if (dealer.handSize() == 2 && dealer.handValue() == 21) {
-				System.out.println("Dealer got a Blackjack!");
-				System.out.println("Dealer Wins!");
-				System.exit(0);
-			}
-			// Player busted
-			if (player.handValue() > 21) {
-				System.out.println("You Busted!");
-				System.out.println("Dealer Wins!");
-				System.exit(0);
-			}
-			// Dealer busted
-			if (dealer.handValue() > 21) {
-				System.out.println("Dealer Busted!");
-				System.out.println("You Win!");
-				System.exit(0);
-			}
-			// Dealer's score is better
-			if (dealer.handValue() >= player.handValue()) {
-				System.out.println("Dealer Wins!");
-				System.exit(0);
-			}
-			
-			// Player's score is better
-			System.out.println("You Win!");
-
+			determineWinner();
 		}
 		
 		sc.close();
@@ -130,6 +75,19 @@ public class Game {
 		System.out.print("Select console (c) or file (f) input: ");
 		char i = sc.next().charAt(0);
 		return i;
+	}
+	
+	static void initGame() {
+		deck = new Deck();
+		System.out.println();
+		System.out.println("Dealing Cards...");
+		dealCard(player, 2);
+		dealCard(dealer, 2);
+		System.out.println();
+		System.out.println("Dealer's Hand: --");
+		dealer.showHand(1);
+		System.out.println("--");
+		showPlayerHand();
 	}
 	
 	static char promptHitOrStand() {
@@ -150,5 +108,52 @@ public class Game {
 		System.out.println("Your Hand: " + player.handValue());
 		player.showHand(player.handSize());
 		System.out.println();
+	}
+	
+	static void dealCard(Hand person, int numCards) {
+		for (int i = 0; i < numCards; i++)
+			person.newCard(deck.drawCard());
+	}
+	
+	static void determineWinner() {
+		System.out.println();
+		System.out.println();
+		
+		System.out.println("Final Hands");
+		System.out.println("===========");
+		showDealerHand();
+		showPlayerHand();
+		System.out.println();
+		
+		// Player has Blackjack
+		if (player.handSize() == 2 && player.handValue() == 21) {
+			System.out.println("You got a Blackjack!");
+		}
+		// Dealer has Blackjack
+		if (dealer.handSize() == 2 && dealer.handValue() == 21) {
+			System.out.println("Dealer got a Blackjack!");
+			System.out.println("Dealer Wins!");
+			System.exit(0);
+		}
+		// Player busted
+		if (player.handValue() > 21) {
+			System.out.println("You Busted!");
+			System.out.println("Dealer Wins!");
+			System.exit(0);
+		}
+		// Dealer busted
+		if (dealer.handValue() > 21) {
+			System.out.println("Dealer Busted!");
+			System.out.println("You Win!");
+			System.exit(0);
+		}
+		// Dealer's score is better
+		if (dealer.handValue() >= player.handValue()) {
+			System.out.println("Dealer Wins!");
+			System.exit(0);
+		}
+		
+		// Player's score is better
+		System.out.println("You Win!");
 	}
 }
