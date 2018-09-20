@@ -16,7 +16,7 @@ public class Game {
 	static Hand dealer;
 	static Deck deck;
 	static Scanner sc;
-	static boolean endTurn;
+	static boolean endTurn = false;
 	
 	public static void main(String[] args) throws FileNotFoundException {
 		player = new Hand();
@@ -31,7 +31,6 @@ public class Game {
 		
 		// If input is file
 		if (input == 'f') {
-			endTurn = false;
 			File file = new File("");
 			while (!file.canExecute()) {
 				System.out.print("Please enter the file name: ");
@@ -163,7 +162,6 @@ public class Game {
 	static void initGame() {
 		deck = new Deck();
 		deck.shuffle();
-		endTurn = false;
 		
 		System.out.println();
 		System.out.println("Dealing Cards...");
@@ -173,8 +171,7 @@ public class Game {
 		dealCard(dealer, deck.drawCard());
 		System.out.println();
 		System.out.println("Dealer's Hand: --");
-		dealer.showHand(1);
-		System.out.println("--");
+		System.out.println(dealer.showHand(1));
 		showPlayerHand();
 		
 		if (player.handValue() >= 21) endTurn = true;
@@ -202,14 +199,14 @@ public class Game {
 	static void showDealerHand() {
 		System.out.println();
 		System.out.println("Dealer's Hand: " + dealer.handValue());
-		dealer.showHand(dealer.handSize());
+		System.out.println(dealer.showHand(dealer.handSize()));
 		System.out.println();
 	}
 	
 	static void showPlayerHand() {
 		System.out.println();
 		System.out.println("Your Hand: " + player.handValue());
-		player.showHand(player.handSize());
+		System.out.println(player.showHand(player.handSize()));
 		System.out.println();
 	}
 	

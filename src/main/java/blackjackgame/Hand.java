@@ -37,10 +37,16 @@ public class Hand {
 	
 	
 	// Return the hand as String (C3 SK ...)
-	public void showHand(int numCards) {
+	public String showHand(int numCards) {
+		String cards = new String();
 		for (int i = 0; i < numCards; i++) {
-			System.out.print(hand.get(i).toString() + " ");
+			cards += hand.get(i).toString();
+			cards += " ";
 		}
+		if (numCards < this.handSize()) {
+			cards += "--";
+		}
+		return cards;
 	}
 	
 	// Getters
