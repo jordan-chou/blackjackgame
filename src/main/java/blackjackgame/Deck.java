@@ -18,7 +18,6 @@ public class Deck {
 		for (int i = 0; i < 4; i++)
 			for (int j = 1; j <= 13; j++)
 				deck.add(new Card(i,j));
-		shuffle();
 	}
 	
 	// Shuffle the deck
@@ -34,5 +33,22 @@ public class Deck {
 	// Get number of cards in deck
 	public int numCards() {
 		return deck.size();
+	}
+	
+	// Get card at index i
+	public Card getCard(int i) {
+		return deck.get(i);
+	}
+	
+	// Check if equal
+	public boolean equals(Deck deck) {
+		if (numCards() != deck.numCards())
+			return false;
+		for (int i = 0; i < numCards(); i++) {
+			if (!getCard(i).equals(deck.getCard(i))) {
+				return false;
+			}
+		}
+		return true;
 	}
 }

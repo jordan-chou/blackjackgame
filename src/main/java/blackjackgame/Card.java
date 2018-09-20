@@ -13,6 +13,31 @@ public class Card {
 	private char 	suit;	// suit of card (S, C, D, H)
 	private String 	rank;	// rank of card
 	
+	public Card(char s, char v) {
+		suit = s;
+		
+		switch (v) {
+		case 'A': 	rank = "A";
+					value = 11;
+					break;
+		case '1':	rank = "10";
+					value = 10;
+					break;
+		case 'J':	rank = "J";
+					value = 10;
+					break;
+		case 'Q':	rank = "Q";
+					value = 10;
+					break;
+		case 'K':	rank = "K";
+					value = 10;
+					break;
+		default:	rank = Character.toString(v);
+					value = Character.getNumericValue(v);
+					break;
+		}
+	}
+	
 	public Card(int s, int v) {
 		switch (s) {
 		case 0:		suit = 'S';
